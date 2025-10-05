@@ -10,7 +10,7 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
 
   const handleSubmit = async (e) => {
     e.preventDefault();

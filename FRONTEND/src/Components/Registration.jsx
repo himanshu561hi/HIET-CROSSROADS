@@ -7,7 +7,7 @@ const Registration = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
 
   const events = [
     'code-puzzle',

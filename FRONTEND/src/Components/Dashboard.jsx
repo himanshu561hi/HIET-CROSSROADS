@@ -7,7 +7,7 @@
 //   const [registrations, setRegistrations] = useState([]);
 //   const [loading, setLoading] = useState(true);
 //   const navigate = useNavigate();
-//   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+//   const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
 
 //   useEffect(() => {
 //     const fetchData = async () => {
@@ -75,7 +75,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [particles, setParticles] = useState([]);
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
 
   useEffect(() => {
     const particleCount = 30;

@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [reason, setReason] = useState('');
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
 
   useEffect(() => {
     const fetchData = async () => {

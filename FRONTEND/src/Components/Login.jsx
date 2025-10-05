@@ -10,7 +10,7 @@
 //   const [loading, setLoading] = useState(false);
 //   const navigate = useNavigate();
 
-//   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+//   const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
 //   console.log('API URL in Login:', apiUrl);
 
 //   const handleSubmit = async (e) => {
@@ -91,7 +91,7 @@ const Login = () => {
   const [particles, setParticles] = useState([]);
   const navigate = useNavigate();
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
   console.log('API URL in Login:', apiUrl);
 
   useEffect(() => {
