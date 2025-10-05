@@ -161,7 +161,7 @@ const Register = () => {
       if (response.data.otp) {
         alert(`Registration successful, but email sending failed. Use this OTP: ${response.data.otp}`);
       } else {
-        alert('Registration successful, Admin Will Approve Your Account Soon(within 1 hr).');
+        alert('Registration successful, You can login now .');
       }
       navigate('/login', { state: { email } });
     } catch (err) {
