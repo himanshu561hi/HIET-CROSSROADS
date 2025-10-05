@@ -577,7 +577,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="pt-16">
       <h2>Register</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {message && <p style={{ color: 'green' }}>{message}</p>}

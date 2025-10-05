@@ -226,7 +226,7 @@ const sendOTP = async (req, res) => {
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.error('Missing email credentials');
       console.log(`Email sending failed, OTP for ${email}: ${otp}`);
-      return res.json({ msg: 'OTP resent, but email failed. OTP logged in console.', otp });
+      return res.status(500).json({ msg: 'OTP saved, but email failed due to missing credentials', otp });
     }
 
     const transporter = nodemailer.createTransport({
@@ -240,6 +240,7 @@ const sendOTP = async (req, res) => {
       tls: {
         rejectUnauthorized: false,
       },
+      debug: true, // Enable verbose SMTP logs
     });
 
     await transporter.verify((error, success) => {
@@ -250,19 +251,36 @@ const sendOTP = async (req, res) => {
       }
     });
 
-    res.json({ msg: 'OTP resent' });
+    // Attempt to send email with one retry
+    let emailSent = false;
+    let emailError = null;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        await transporter.sendMail({
+          from: `"HIET Crossroads" <${process.env.EMAIL_USER}>`,
+          to: email,
+          subject: 'Your OTP for Verification',
+          text: `Your OTP is ${otp}. It expires in 10 minutes.`,
+        });
+        console.log(`OTP email sent to: ${email} on attempt ${attempt}`);
+        emailSent = true;
+        break;
+      } catch (err) {
+        console.error(`Nodemailer error in sendOTP (attempt ${attempt}):`, err);
+        emailError = err;
+      }
+    }
 
-    transporter.sendMail({
-      from: `"Your App Name" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: 'Your OTP for Verification',
-      text: `Your OTP is ${otp}. It expires in 10 minutes.`,
-    }).then(() => {
-      console.log(`OTP email sent to: ${email}`);
-    }).catch(emailErr => {
-      console.error('Nodemailer error in sendOTP:', emailErr);
-      console.log(`Email sending failed, OTP for ${email}: ${otp}`);
-    });
+    if (!emailSent) {
+      console.log(`Email sending failed after retries, OTP for ${email}: ${otp}`);
+      return res.status(500).json({
+        msg: 'OTP saved, but email sending failed',
+        otp,
+        error: emailError.message,
+      });
+    }
+
+    res.json({ msg: 'OTP resent' });
   } catch (err) {
     console.error('sendOTP error:', err);
     res.status(500).json({ msg: 'Server error', error: err.message });
@@ -332,6 +350,19 @@ const register = async (req, res) => {
 
     await user.save();
 
+    console.log('Sending registration OTP email with:');
+    console.log('EMAIL_USER:', process.env.EMAIL_USER);
+    console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? 'Set' : 'Not set');
+
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.error('Missing email credentials');
+      console.log(`Email sending failed, OTP for ${email}: ${otp}`);
+      return res.status(500).json({
+        msg: 'User registered, but email failed due to missing credentials',
+        otp,
+      });
+    }
+
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -343,6 +374,7 @@ const register = async (req, res) => {
       tls: {
         rejectUnauthorized: false,
       },
+      debug: true, // Enable verbose SMTP logs
     });
 
     await transporter.verify((error, success) => {
@@ -353,19 +385,36 @@ const register = async (req, res) => {
       }
     });
 
-    res.json({ msg: 'User registered, OTP sent' });
+    // Attempt to send email with one retry
+    let emailSent = false;
+    let emailError = null;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        await transporter.sendMail({
+          from: `"HIET Crossroads" <${process.env.EMAIL_USER}>`,
+          to: email,
+          subject: 'Your OTP for Registration',
+          text: `Your OTP is ${otp}. It expires in 10 minutes.`,
+        });
+        console.log(`Registration OTP email sent to: ${email} on attempt ${attempt}`);
+        emailSent = true;
+        break;
+      } catch (err) {
+        console.error(`Nodemailer error in register (attempt ${attempt}):`, err);
+        emailError = err;
+      }
+    }
 
-    transporter.sendMail({
-      from: `"Your App Name" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: 'Your OTP for Registration',
-      text: `Your OTP is ${otp}. It expires in 10 minutes.`,
-    }).then(() => {
-      console.log(`Registration OTP email sent to: ${email}`);
-    }).catch(emailErr => {
-      console.error('Nodemailer error in register:', emailErr);
-      console.log(`Email sending failed, OTP for ${email}: ${otp}`);
-    });
+    if (!emailSent) {
+      console.log(`Email sending failed after retries, OTP for ${email}: ${otp}`);
+      return res.status(500).json({
+        msg: 'User registered, but email sending failed',
+        otp,
+        error: emailError.message,
+      });
+    }
+
+    res.json({ msg: 'User registered, OTP sent' });
   } catch (err) {
     console.error('register error:', err);
     if (err.name === 'ValidationError') {
