@@ -8,7 +8,7 @@ import Registration from './Components/Registration';
 import AdminLogin from './Components/AdminLogin';
 import AdminVerifyOTP from './Components/AdminVerifyOTP';
 import AdminDashboard from './Components/AdminDashboard';
-import NavBar from './Components/Navbar';
+import NavBar from './Components/NavBar';
 import Home from './Components/Home';
 import Event from './Components/Event';
 import Footer from './Components/Footer';
