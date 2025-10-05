@@ -53,7 +53,7 @@
 //           className="bg-blue-500 text-white p-3 rounded w-full hover:bg-blue-600 transition disabled:opacity-50"
 //           disabled={loading}
 //         >
-//           {loading ? (
+//           {loading ? (.    
 //             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mx-auto"></div>
 //           ) : (
 //             'Verify OTP'
