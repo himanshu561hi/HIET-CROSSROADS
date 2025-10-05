@@ -9,7 +9,7 @@
 //   const location = useLocation();
 //   const email = location.state?.email || '';
 
-//   const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
+//   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 //   console.log('API URL in VerifyOTP:', apiUrl);
 
 //   const handleSubmit = async (e) => {
@@ -79,7 +79,7 @@ const VerifyOTP = () => {
   const location = useLocation();
   const email = location.state?.email || '';
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'https://hiet-crossroads.onrender.com';
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   console.log('API URL in VerifyOTP:', apiUrl);
 
   useEffect(() => {
