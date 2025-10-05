@@ -157,7 +157,7 @@ const Dashboard = () => {
       <div className="absolute bottom-20 left-1/2 w-64 h-64 bg-slate-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000"></div>
 
       {/* Header */}
-      <div className="relative z-10 bg-white/5 backdrop-blur-md border-b border-white/10 sticky top-0">
+      <div className="relative z-0 bg-white/5 backdrop-blur-md border-b border-white/10 sticky top-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center space-x-3">
@@ -181,7 +181,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* User Profile Card */}
         {userData && (
           <div className="mb-8 animate-slideInDown">
