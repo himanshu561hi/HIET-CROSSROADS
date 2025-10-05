@@ -212,7 +212,7 @@ const Register = () => {
             <div className="space-y-6">
               <div className="inline-flex items-center space-x-3 bg-white/5 backdrop-blur-sm px-6 py-3 rounded-full border border-white/10">
                 <Sparkles className="w-5 h-5 text-cyan-400 animate-pulse" />
-                <span className="text-cyan-400 font-semibold text-sm tracking-wide">CROSSROADS 202</span>
+                <span className="text-cyan-400 font-semibold text-sm tracking-wide">CROSSROADS 2025</span>
               </div>
               
               <h1 className="text-5xl xl:text-6xl font-bold text-white leading-tight">
