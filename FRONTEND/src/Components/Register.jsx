@@ -163,7 +163,7 @@ const Register = () => {
       } else {
         alert('Registration successful, Admin Will Approve Your Account Soon(within 1 hr).');
       }
-      navigate('/verify-otp', { state: { email } });
+      navigate('/login', { state: { email } });
     } catch (err) {
       console.error('Registration error:', err);
       const errorMsg = err.response?.data?.msg || err.response?.data?.error || 'Server error';
