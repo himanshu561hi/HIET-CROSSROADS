@@ -232,17 +232,16 @@ const sendOTP = async (req, res) => {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
-      secure: false, // Use STARTTLS
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
       tls: {
-        rejectUnauthorized: false, // Optional: Handle self-signed certs
+        rejectUnauthorized: false,
       },
     });
 
-    // Verify transporter connection
     await transporter.verify((error, success) => {
       if (error) {
         console.error('Transporter verification error:', error);
@@ -251,10 +250,8 @@ const sendOTP = async (req, res) => {
       }
     });
 
-    // Send response immediately to avoid delay
     res.json({ msg: 'OTP resent' });
 
-    // Send email asynchronously
     transporter.sendMail({
       from: `"Your App Name" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -299,9 +296,22 @@ const verifyOTP = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, mobile, username, email, password } = req.body;
 
   try {
+    if (!name || !mobile || !username || !email || !password) {
+      return res.status(400).json({
+        msg: 'Missing required fields',
+        errors: {
+          name: !name ? 'Name is required' : undefined,
+          mobile: !mobile ? 'Mobile is required' : undefined,
+          username: !username ? 'Username is required' : undefined,
+          email: !email ? 'Email is required' : undefined,
+          password: !password ? 'Password is required' : undefined,
+        },
+      });
+    }
+
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
@@ -311,6 +321,8 @@ const register = async (req, res) => {
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
     user = new User({
+      name,
+      mobile,
       username,
       email,
       password,
@@ -356,6 +368,13 @@ const register = async (req, res) => {
     });
   } catch (err) {
     console.error('register error:', err);
+    if (err.name === 'ValidationError') {
+      const errors = Object.values(err.errors).map(e => ({
+        path: e.path,
+        message: e.message,
+      }));
+      return res.status(400).json({ msg: 'Validation failed', errors });
+    }
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 };
